@@ -19,5 +19,5 @@ app.set("view engine", "ejs");
 app.use("/", contactRoutes);
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
+  console.log(`Server is Running at http://localhost:${process.env.PORT}/`);
 });
