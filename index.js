@@ -40,17 +40,36 @@ app.get("/add-contact", (req, res) => {
   res.render("add-contact");
 });
 
-app.post("/add-contact", (req, res) => {});
+app.post("/add-contact", async (req, res) => {
+  // const contact = await Contact.insertOne({
+  //   firstName: req.body.firstName,
+  //   lastName: req.body.lastName,
+  //   email: req.body.email,
+  //   phone: req.body.phone,
+  //   address: req.body.address,
+  // });
+  await Contact.create(req.body);
 
-app.get("/update-contact/:id", (req, res) => {
-  res.render("update-contact");
+  // res.send(req.body);
+  res.redirect("/");
 });
 
-app.post("/update-contact/:id", (req, res) => {
-  res.render("update-contact");
+app.get("/update-contact/:id", async (req, res) => {
+  const contact = await Contact.findById(req.params.id);
+
+  res.render("update-contact", { contact });
 });
 
-app.get("/delete-contact/:id", (req, res) => {});
+app.post("/update-contact/:id", async (req, res) => {
+  // const {firstName,lastName,email,phone,address}= req.body;
+  await Contact.findByIdAndUpdate(req.params.id, req.body);
+  res.redirect("/");
+});
+
+app.get("/delete-contact/:id", async (req, res) => {
+  await Contact.findByIdAndDelete(req.params.id);
+  res.redirect("/");
+});
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
